@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<canvas id="stars-bg"></canvas>
+<div id="confetti-wrap"></div>
+<div id="toast"><i class="fas fa-heart" style="color:#fbbf24;margin-right:0.4rem;"></i> Thanks for visiting my portfolio! 🎉</div>
+
+<!-- ============================================================
+     NAV
+============================================================ -->
+<nav>
+  <div class="nav-logo" id="logo-btn">Portfolio</div>
+  <ul class="nav-menu">
+    <li><button id="nb-home"     class="active">Home</button></li>
+    <li><button id="nb-about"           >About</button></li>
+    <li><button id="nb-skills"          >Skills</button></li>
+    <li><button id="nb-projects"        >Projects</button></li>
+    <li><button id="nb-contact"         >Contact</button></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <button id="mb-home"    class="active">🏠 Home</button>
+  <button id="mb-about"           >👤 About</button>
+  <button id="mb-skills"          >⚡ Skills</button>
+  <button id="mb-projects"        >💻 Projects</button>
+  <button id="mb-contact"         >📬 Contact</button>
+</div>
+
+<!-- ============================================================
+     HOME
+============================================================ -->
+<div class="page show" id="pg-home">
+  <p class="hello-label">Hello, I'm</p>
+  <h1 class="hero-name">Your Name</h1>
+  <div class="mca-badge">🎓 I am MCA Student</div>
+  <div class="typed-row"><span id="typed-el"></span><span class="cursor-blink"></span></div>
+  <p class="hero-desc">
+    I love building clean, responsive websites and learning new things every day.
+    Currently pursuing my MCA and exploring the world of frontend development.
+  </p>
+  <div class="hero-btn-row">
+    <button class="btn-outline"><i class="fas fa-download"></i> Download CV</button>
+    <button class="btn-clickme" id="clickme-btn">✨ Click Me!</button>
+  </div>
+  <div class="hero-socials">
+    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
+  </div>
+</div>
+
+<!-- ============================================================
+     ABOUT
+============================================================ -->
+<div class="page" id="pg-about">
+  <div class="sec-head">
+    <span class="sec-tag">Who Am I</span>
+    <h2 class="sec-title">About Me</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="about-wrap">
+    <div class="about-avi">👨‍💻</div>
+    <div class="about-info">
+      <h2>Your Name</h2>
+      <div class="about-role"><i class="fas fa-code"></i> Frontend Developer &amp; MCA Student</div>
+      <p>
+        Hi! I'm an MCA student with a strong interest in <strong style="color:var(--accent)">Frontend Development</strong>.
+        I enjoy turning ideas into neat, responsive web pages using HTML, CSS, and JavaScript.
+        I'm still learning and growing every day — I love the process of building things from scratch.
+        I focus on writing clean code and making websites that look good and are easy to use.
+        Outside of coding, I enjoy exploring UI design to make web pages more attractive and user-friendly.
+        I'm always open to feedback and excited to work on new projects!
+      </p>
+      <div class="about-chips">
+        <span class="chip">HTML</span>
+        <span class="chip">CSS</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">React (Learning)</span>
+        <span class="chip">UI Design</span>
+        <span class="chip">MCA 2025</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SKILLS
+============================================================ -->
+<div class="page" id="pg-skills">
+  <div class="sec-head">
+    <span class="sec-tag">What I Know</span>
+    <h2 class="sec-title">My Skills</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="skills-wrap">
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">🌐 HTML</span><span class="sk-pct">85%</span></div><div class="sk-bar"><div class="sk-fill" data-w="85"></div></div></div>
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">🎨 CSS / Bootstrap</span><span class="sk-pct">78%</span></div><div class="sk-bar"><div class="sk-fill" data-w="78"></div></div></div>
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">⚙️ JavaScript (Basics)</span><span class="sk-pct">60%</span></div><div class="sk-bar"><div class="sk-fill" data-w="60"></div></div></div>
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">⚛️ React.js (Learning)</span><span class="sk-pct">40%</span></div><div class="sk-bar"><div class="sk-fill" data-w="40"></div></div></div>
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">🗄️ MySQL (Basic)</span><span class="sk-pct">55%</span></div><div class="sk-bar"><div class="sk-fill" data-w="55"></div></div></div>
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">🛠️ Git &amp; GitHub</span><span class="sk-pct">65%</span></div><div class="sk-bar"><div class="sk-fill" data-w="65"></div></div></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PROJECTS  — self-managed, saved in browser
+============================================================ -->
+<div class="page" id="pg-projects">
+  <div class="sec-head">
+    <span class="sec-tag">What I've Built</span>
+    <h2 class="sec-title">My Projects</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="proj-inner">
+    <!-- Top bar: filters + add button -->
+    <div class="proj-topbar">
+      <div class="proj-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="html">HTML &amp; CSS</button>
+        <button class="filter-btn" data-filter="js">JavaScript</button>
+        <button class="filter-btn" data-filter="react">React</button>
+        <button class="filter-btn" data-filter="python">Python</button>
+        <button class="filter-btn" data-filter="other">Other</button>
+      </div>
+      <button class="btn-add-proj" id="open-modal-btn">
+        <i class="fas fa-plus"></i> Add Project
+      </button>
+    </div>
+
+    <!-- Cards render here -->
+    <div class="proj-grid" id="proj-grid">
+      <!-- Empty state (shown when no projects) -->
+      <div id="proj-empty">
+        <div class="empty-icon">📂</div>
+        <p>No projects yet.<br/>Click <strong style="color:var(--accent)">"+ Add Project"</strong> to upload your first project!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CONTACT
+============================================================ -->
+<div class="page" id="pg-contact">
+  <div class="sec-head">
+    <span class="sec-tag">Get In Touch</span>
+    <h2 class="sec-title">Contact Me</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <div>
+        <h3>Let's Talk! 👋</h3>
+        <p style="margin-top:0.4rem;">Have a question, want to collaborate, or just want to say hi? Drop a message!</p>
+      </div>
+      <div class="c-row"><i class="fas fa-user"></i> MONICA KRISHNAN</div>
+      <div class="c-row"><i class="fas fa-envelope"></i> monicakrish204@gmail.com</div>
+      <div class="c-row"><i class="fas fa-phone"></i> +91 9994959515</div>
+      <div class="c-row"><i class="fas fa-map-marker-alt"></i> Tirupur, Tamil Nadu</div>
+      <div class="contact-socials">
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+    <div class="contact-form">
+      <input type="text"  placeholder="Your Name"/>
+      <input type="email" placeholder="Your Email"/>
+      <input type="text"  placeholder="Subject"/>
+      <textarea           placeholder="Your Message"></textarea>
+      <button class="btn-primary" style="width:100%;justify-content:center;">
+        <i class="fas fa-paper-plane"></i> Send Message
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer></footer>
+
+<!-- ============================================================
+     ADD PROJECT MODAL
+============================================================ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>➕ Add New Project</h3>
+      <button class="modal-close" id="close-modal-btn"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="form-row">
+      <label>PROJECT TITLE *</label>
+      <input type="text" id="f-title" placeholder="e.g. To-Do List App"/>
+    </div>
+
+    <div class="form-row">
+      <label>SHORT DESCRIPTION *</label>
+      <textarea id="f-desc" placeholder="What does this project do? What did you learn?"></textarea>
+    </div>
+
+    <div class="form-2col">
+      <div class="form-row">
+        <label>EMOJI / ICON</label>
+        <input type="text" id="f-emoji" placeholder="e.g. 🧮" maxlength="4"/>
+        <span class="form-hint">Pick any emoji for your project</span>
+      </div>
+      <div class="form-row">
+        <label>CATEGORY *</label>
+        <select id="f-cat">
+          <option value="html">HTML &amp; CSS</option>
+          <option value="js">JavaScript</option>
+          <option value="react">React</option>
+          <option value="python">Python</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>TECHNOLOGIES USED</label>
+      <input type="text" id="f-tags" placeholder="e.g. HTML, CSS, JavaScript"/>
+      <span class="form-hint">Separate with commas</span>
+    </div>
+
+    <div class="form-2col">
+      <div class="form-row">
+        <label>GITHUB LINK</label>
+        <input type="url" id="f-github" placeholder="https://github.com/..."/>
+      </div>
+      <div class="form-row">
+        <label>LIVE DEMO LINK</label>
+        <input type="url" id="f-live" placeholder="https://..."/>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" id="cancel-modal-btn">Cancel</button>
+      <button class="btn-save" id="save-proj-btn"><i class="fas fa-save"></i> Save Project</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
