@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+
+/* ===== RESET ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg:     #05061a;
+  --accent: #7c3aed;
+  --pink:   #c026d3;
+  --cyan:   #06b6d4;
+  --white:  #f1f5f9;
+  --muted:  #94a3b8;
+  --card:   rgba(255,255,255,0.05);
+  --bord:   rgba(124,58,237,0.28);
+}
+body { font-family:'Poppins',sans-serif; background:var(--bg); color:var(--white); min-height:100vh; overflow-x:hidden; }
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--accent); border-radius:4px; }
+
+/* ===== STARS ===== */
+#stars-bg { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+/* ===== NAV ===== */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:999;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 5%; height:62px;
+  background:rgba(5,6,26,0.88); backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--bord);
+}
+.nav-logo {
+  font-size:1.3rem; font-weight:800; cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--pink));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.nav-menu { display:flex; gap:0.3rem; list-style:none; }
+.nav-menu li button {
+  background:none; border:none; cursor:pointer;
+  font-family:'Poppins',sans-serif; font-size:0.88rem; font-weight:500;
+  color:var(--muted); padding:0.4rem 0.9rem; border-radius:8px;
+  transition:all 0.25s; position:relative;
+}
+.nav-menu li button:hover { color:var(--white); background:rgba(124,58,237,0.12); }
+.nav-menu li button.active { color:var(--white); background:rgba(124,58,237,0.18); }
+.nav-menu li button.active::after {
+  content:''; position:absolute; bottom:2px; left:50%; transform:translateX(-50%);
+  width:18px; height:2px; background:var(--accent); border-radius:2px;
+}
+
+/* Hamburger */
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; }
+.hamburger span { display:block; width:24px; height:2px; background:var(--white); border-radius:2px; transition:all 0.3s; }
+.hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+/* Mobile menu */
+.mobile-menu {
+  display:none; position:fixed;
+  top:62px; left:0; right:0; z-index:998;
+  background:rgba(5,6,26,0.97); border-bottom:1px solid var(--bord);
+  backdrop-filter:blur(14px); padding:1rem 5%;
+  flex-direction:column; gap:0.3rem;
+}
+.mobile-menu.open { display:flex; }
+.mobile-menu button {
+  background:none; border:none; cursor:pointer;
+  font-family:'Poppins',sans-serif; font-size:0.95rem; font-weight:500;
+  color:var(--muted); text-align:left; padding:0.65rem 0.9rem;
+  border-radius:8px; transition:all 0.25s; width:100%;
+}
+.mobile-menu button:hover { color:var(--white); background:rgba(124,58,237,0.12); }
+.mobile-menu button.active { color:var(--white); background:rgba(124,58,237,0.18); }
+
+/* ===== PAGE SYSTEM ===== */
+.page { display:none; min-height:100vh; padding-top:62px; position:relative; z-index:1; flex-direction:column; align-items:center; justify-content:center; }
+.page.show { display:flex; animation:pgFade 0.38s ease; }
+@keyframes pgFade { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+/* ===== SHARED HEADER ===== */
+.sec-head { text-align:center; margin-bottom:2.2rem; }
+.sec-tag { display:inline-block; font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--accent); font-weight:600; margin-bottom:0.4rem; }
+.sec-title { font-size:clamp(1.6rem,4vw,2.2rem); font-weight:800; background:linear-gradient(135deg,var(--white),var(--muted)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.sec-line { width:46px; height:3px; border-radius:2px; margin:0.65rem auto 0; background:linear-gradient(90deg,var(--accent),var(--pink)); }
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.72rem 1.9rem; border:none; border-radius:50px; cursor:pointer;
+  font-family:'Poppins',sans-serif; font-size:0.88rem; font-weight:600;
+  background:linear-gradient(135deg,var(--accent),var(--pink)); color:#fff;
+  box-shadow:0 4px 18px rgba(124,58,237,0.45); transition:transform 0.2s, box-shadow 0.2s;
+}
+.btn-primary:hover { transform:translateY(-3px); box-shadow:0 8px 26px rgba(124,58,237,0.65); }
+.btn-outline {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.72rem 1.9rem; border:2px solid var(--accent); border-radius:50px; cursor:pointer;
+  font-family:'Poppins',sans-serif; font-size:0.88rem; font-weight:600;
+  background:transparent; color:var(--white); transition:all 0.3s;
+}
+.btn-outline:hover { background:var(--accent); transform:translateY(-3px); }
+
+/* ==================== HOME ==================== */
+#pg-home { text-align:center; padding:7rem 5% 5rem; gap:0; }
+.hello-label { font-size:0.95rem; color:var(--muted); letter-spacing:0.18em; margin-bottom:0.4rem; }
+.hero-name {
+  font-size:clamp(2.8rem,8vw,5rem); font-weight:800; line-height:1.1;
+  background:linear-gradient(135deg,var(--accent) 25%,var(--pink));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:0.6rem;
+}
+.mca-badge {
+  display:inline-block; font-size:1.1rem; font-weight:600; color:var(--cyan);
+  position:relative; padding:0.08rem 0.6rem; margin-bottom:0.5rem;
+  animation:mcaGlow 2.5s ease-in-out infinite alternate;
+}
+.mca-badge::before {
+  content:''; position:absolute; inset:-5px -12px;
+  border:1px solid rgba(6,182,212,0.4); border-radius:8px; background:rgba(6,182,212,0.07);
+  animation:mcaBord 2.5s ease-in-out infinite alternate;
+}
+@keyframes mcaGlow { from{text-shadow:0 0 8px rgba(6,182,212,0.5)} to{text-shadow:0 0 22px rgba(6,182,212,0.95),0 0 50px rgba(124,58,237,0.5)} }
+@keyframes mcaBord { from{box-shadow:0 0 10px rgba(6,182,212,0.15)} to{box-shadow:0 0 26px rgba(6,182,212,0.65)} }
+.typed-row { font-size:1.1rem; color:var(--pink); font-weight:500; min-height:1.7rem; margin:0.9rem 0 0.2rem; }
+.cursor-blink { display:inline-block; width:2px; height:1em; background:var(--pink); margin-left:2px; vertical-align:middle; animation:blink 0.7s step-end infinite; }
+@keyframes blink { 50%{opacity:0} }
+.hero-desc { font-size:0.92rem; color:var(--muted); line-height:1.8; max-width:490px; margin:0.7rem auto 2rem; }
+.hero-btn-row { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:1.8rem; }
+.btn-clickme {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.72rem 2rem; border:none; border-radius:50px; cursor:pointer;
+  font-family:'Poppins',sans-serif; font-size:0.9rem; font-weight:700;
+  background:linear-gradient(135deg,#f59e0b,#ef4444,#ec4899); color:#fff;
+  animation:clickPulse 2s infinite; box-shadow:0 4px 22px rgba(239,68,68,0.45); transition:transform 0.2s;
+}
+.btn-clickme:hover { transform:scale(1.06); }
+@keyframes clickPulse { 0%,100%{box-shadow:0 4px 22px rgba(239,68,68,0.45)} 50%{box-shadow:0 4px 38px rgba(239,68,68,0.85),0 0 55px rgba(245,158,11,0.3)} }
+.hero-socials { display:flex; gap:0.9rem; justify-content:center; }
+.hero-socials a {
+  width:38px; height:38px; border-radius:50%; border:1px solid var(--bord); color:var(--muted);
+  display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:0.95rem; transition:all 0.3s;
+}
+.hero-socials a:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-4px); }
+
+/* ==================== ABOUT ==================== */
+#pg-about { padding:5rem 5% 4rem; }
+.about-wrap {
+  max-width:700px; width:100%; background:var(--card); border:1px solid var(--bord); border-radius:20px;
+  padding:2.4rem 2.5rem; display:flex; gap:2rem; align-items:flex-start; flex-wrap:wrap;
+}
+.about-avi {
+  width:95px; height:95px; border-radius:50%; flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent),var(--pink));
+  display:flex; align-items:center; justify-content:center; font-size:2.6rem;
+  box-shadow:0 0 26px rgba(124,58,237,0.4);
+}
+.about-info { flex:1; min-width:200px; }
+.about-info h2 { font-size:1.25rem; font-weight:700; margin-bottom:0.2rem; }
+.about-role { font-size:0.82rem; color:var(--cyan); font-weight:500; margin-bottom:0.9rem; display:flex; align-items:center; gap:0.35rem; }
+.about-info p { font-size:0.87rem; color:var(--muted); line-height:1.88; }
+.about-chips { display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:1rem; }
+.chip { font-size:0.7rem; padding:0.2rem 0.65rem; border-radius:20px; background:rgba(124,58,237,0.16); color:var(--accent); border:1px solid rgba(124,58,237,0.3); font-weight:500; }
+
+/* ==================== SKILLS ==================== */
+#pg-skills { padding:5rem 5% 4rem; }
+.skills-wrap { max-width:680px; width:100%; display:flex; flex-direction:column; gap:1rem; }
+.sk-card { background:var(--card); border:1px solid var(--bord); border-radius:13px; padding:1rem 1.3rem; transition:border-color 0.3s; }
+.sk-card:hover { border-color:var(--accent); }
+.sk-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.55rem; }
+.sk-name { font-size:0.87rem; font-weight:600; }
+.sk-pct  { font-size:0.78rem; color:var(--accent); font-weight:600; }
+.sk-bar  { height:7px; background:rgba(255,255,255,0.08); border-radius:4px; overflow:hidden; }
+.sk-fill { height:100%; border-radius:4px; width:0; background:linear-gradient(90deg,var(--accent),var(--pink)); transition:width 1.1s ease; }
+
+/* ==================== PROJECTS ==================== */
+#pg-projects { padding:5rem 5% 5rem; justify-content:flex-start; }
+.proj-inner { max-width:960px; width:100%; }
+
+/* Top bar */
+.proj-topbar {
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:1rem; margin-bottom:1.6rem;
+}
+.proj-filters { display:flex; gap:0.45rem; flex-wrap:wrap; }
+.filter-btn {
+  padding:0.35rem 1rem; border-radius:50px; border:1px solid var(--bord);
+  background:transparent; color:var(--muted); cursor:pointer;
+  font-family:'Poppins',sans-serif; font-size:0.76rem; font-weight:500; transition:all 0.25s;
+}
+.filter-btn:hover { border-color:var(--accent); color:var(--white); }
+.filter-btn.active { background:var(--accent); border-color:var(--accent); color:#fff; }
+
+/* Add project button */
+.btn-add-proj {
+  display:inline-flex; align-items:center; gap:0.4rem;
+  padding:0.5rem 1.3rem; border:none; border-radius:50px; cursor:pointer;
+  font-family:'Poppins',sans-serif; font-size:0.82rem; font-weight:600;
+  background:linear-gradient(135deg,var(--accent),var(--pink)); color:#fff;
+  box-shadow:0 4px 16px rgba(124,58,237,0.4); transition:transform 0.2s;
+}
+.btn-add-proj:hover { transform:translateY(-2px); }
+
+/* Grid */
+.proj-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.2rem; }
+
+/* Project card */
+.proj-card {
+  background:var(--card); border:1px solid var(--bord); border-radius:15px;
+  padding:1.4rem; display:flex; flex-direction:column; gap:0.5rem;
+  transition:all 0.3s; position:relative;
+}
+.proj-card:hover { border-color:var(--accent); transform:translateY(-5px); box-shadow:0 10px 28px rgba(124,58,237,0.17); }
+.proj-emoji { font-size:2rem; }
+.proj-title { font-size:0.95rem; font-weight:700; }
+.proj-desc  { font-size:0.8rem; color:var(--muted); line-height:1.72; flex:1; }
+.proj-tags  { display:flex; gap:0.3rem; flex-wrap:wrap; }
+.ptag { font-size:0.65rem; padding:0.14rem 0.5rem; border-radius:10px; background:rgba(6,182,212,0.1); color:var(--cyan); border:1px solid rgba(6,182,212,0.22); }
+.proj-links { display:flex; gap:0.9rem; margin-top:0.3rem; flex-wrap:wrap; }
+.proj-link { font-size:0.75rem; color:var(--accent); text-decoration:none; display:inline-flex; align-items:center; gap:0.28rem; transition:color 0.2s; }
+.proj-link:hover { color:var(--pink); }
+
+/* Delete button on card */
+.proj-delete {
+  position:absolute; top:0.7rem; right:0.7rem;
+  background:rgba(239,68,68,0.15); border:none; border-radius:6px; cursor:pointer;
+  color:#ef4444; font-size:0.72rem; padding:0.22rem 0.5rem;
+  opacity:0; transition:opacity 0.2s;
+}
+.proj-card:hover .proj-delete { opacity:1; }
+.proj-delete:hover { background:rgba(239,68,68,0.3); }
+
+/* Empty state */
+#proj-empty {
+  grid-column:1/-1; text-align:center; padding:3.5rem 1rem;
+  display:flex; flex-direction:column; align-items:center; gap:0.9rem;
+}
+#proj-empty .empty-icon { font-size:3.5rem; opacity:0.5; }
+#proj-empty p { color:var(--muted); font-size:0.88rem; line-height:1.75; }
+
+/* ===== ADD PROJECT MODAL ===== */
+.modal-overlay {
+  position:fixed; inset:0; z-index:2000;
+  background:rgba(0,0,0,0.65); backdrop-filter:blur(6px);
+  display:none; align-items:center; justify-content:center; padding:1rem;
+}
+.modal-overlay.open { display:flex; }
+
+.modal {
+  background:#0d0f2e; border:1px solid var(--bord); border-radius:20px;
+  padding:2rem 2.2rem; width:100%; max-width:500px;
+  max-height:90vh; overflow-y:auto;
+  animation:modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes modalIn { from{opacity:0;transform:scale(0.88)} to{opacity:1;transform:scale(1)} }
+
+.modal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+.modal-header h3 { font-size:1.1rem; font-weight:700; }
+.modal-close {
+  background:none; border:none; cursor:pointer; color:var(--muted);
+  font-size:1.2rem; transition:color 0.2s;
+}
+.modal-close:hover { color:#ef4444; }
+
+/* Form inside modal */
+.form-row { display:flex; flex-direction:column; gap:0.35rem; margin-bottom:1rem; }
+.form-row label { font-size:0.78rem; font-weight:600; color:var(--muted); letter-spacing:0.06em; }
+.form-row input,
+.form-row textarea,
+.form-row select {
+  width:100%; padding:0.68rem 0.9rem;
+  background:rgba(255,255,255,0.05); border:1px solid var(--bord);
+  border-radius:10px; color:var(--white);
+  font-family:'Poppins',sans-serif; font-size:0.84rem; outline:none;
+  transition:border-color 0.3s;
+}
+.form-row input:focus,
+.form-row textarea:focus,
+.form-row select:focus { border-color:var(--accent); }
+.form-row input::placeholder,
+.form-row textarea::placeholder { color:var(--muted); }
+.form-row textarea { resize:vertical; min-height:80px; }
+.form-row select option { background:#0d0f2e; }
+
+/* Two columns in modal */
+.form-2col { display:grid; grid-template-columns:1fr 1fr; gap:0.9rem; }
+
+.form-hint { font-size:0.72rem; color:var(--muted); margin-top:0.2rem; opacity:0.8; }
+
+.modal-footer { display:flex; gap:0.8rem; margin-top:1.4rem; }
+.btn-save {
+  flex:1; padding:0.72rem; border:none; border-radius:10px; cursor:pointer;
+  font-family:'Poppins',sans-serif; font-size:0.88rem; font-weight:600;
+  background:linear-gradient(135deg,var(--accent),var(--pink)); color:#fff;
+  box-shadow:0 4px 16px rgba(124,58,237,0.4); transition:transform 0.2s;
+}
+.btn-save:hover { transform:translateY(-2px); }
+.btn-cancel {
+  padding:0.72rem 1.4rem; border:1px solid var(--bord); border-radius:10px; cursor:pointer;
+  font-family:'Poppins',sans-serif; font-size:0.88rem; font-weight:500;
+  background:transparent; color:var(--muted); transition:all 0.25s;
+}
+.btn-cancel:hover { border-color:var(--accent); color:var(--white); }
+
+/* ==================== CONTACT ==================== */
+#pg-contact { padding:5rem 5% 4rem; }
+.contact-wrap { max-width:700px; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+.contact-info { display:flex; flex-direction:column; gap:1rem; }
+.contact-info h3 { font-size:1.1rem; font-weight:700; }
+.contact-info p { font-size:0.84rem; color:var(--muted); line-height:1.8; }
+.c-row { display:flex; align-items:center; gap:0.65rem; font-size:0.83rem; color:var(--muted); }
+.c-row i { color:var(--accent); width:15px; }
+.contact-socials { display:flex; gap:0.65rem; margin-top:0.4rem; }
+.contact-socials a {
+  width:36px; height:36px; border-radius:50%; border:1px solid var(--bord); color:var(--muted);
+  display:flex; align-items:center; justify-content:center; text-decoration:none; font-size:0.9rem; transition:all 0.3s;
+}
+.contact-socials a:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-3px); }
+.contact-form { display:flex; flex-direction:column; gap:0.75rem; }
+.contact-form input, .contact-form textarea {
+  width:100%; padding:0.68rem 0.9rem;
+  background:var(--card); border:1px solid var(--bord); border-radius:10px;
+  color:var(--white); font-family:'Poppins',sans-serif; font-size:0.84rem; outline:none; transition:border-color 0.3s;
+}
+.contact-form input:focus, .contact-form textarea:focus { border-color:var(--accent); }
+.contact-form input::placeholder, .contact-form textarea::placeholder { color:var(--muted); }
+.contact-form textarea { resize:vertical; min-height:90px; }
+
+/* ===== CONFETTI & TOAST ===== */
+#confetti-wrap { position:fixed; inset:0; pointer-events:none; z-index:9999; overflow:hidden; }
+.confetto { position:absolute; border-radius:2px; animation:confFall linear forwards; }
+@keyframes confFall { 0%{transform:translateY(-10px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+#toast {
+  position:fixed; bottom:-120px; left:50%; transform:translateX(-50%);
+  background:linear-gradient(135deg,#1e1b4b,#312e81); border:1px solid var(--accent); border-radius:14px;
+  padding:1rem 2.2rem; font-size:0.98rem; font-weight:600; color:#fff;
+  box-shadow:0 8px 36px rgba(124,58,237,0.6); z-index:9998; white-space:nowrap;
+  transition:bottom 0.6s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s; opacity:0;
+}
+#toast.show { bottom:2.5rem; opacity:1; }
+
+/* ===== FOOTER ===== */
+footer {
+  position:fixed; bottom:0; left:0; right:0; z-index:50;
+  text-align:center; padding:0.52rem; font-size:0.7rem; color:var(--muted);
+  background:rgba(5,6,26,0.75); backdrop-filter:blur(8px); border-top:1px solid var(--bord);
+}
+footer b { background:linear-gradient(135deg,var(--accent),var(--pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:768px) {
+  .nav-menu { display:none; }
+  .hamburger { display:flex; }
+  .about-wrap { flex-direction:column; align-items:center; text-align:center; padding:1.8rem; }
+  .about-role { justify-content:center; }
+  .about-chips { justify-content:center; }
+  .contact-wrap { grid-template-columns:1fr; }
+  .proj-grid { grid-template-columns:1fr; }
+  .form-2col { grid-template-columns:1fr; }
+}
+@media (max-width:480px) {
+  .hero-name { font-size:2.4rem; }
+  .hero-btn-row { flex-direction:column; align-items:center; }
+  .modal { padding:1.5rem 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars-bg"></canvas>
+<div id="confetti-wrap"></div>
+<div id="toast"><i class="fas fa-heart" style="color:#fbbf24;margin-right:0.4rem;"></i> Thanks for visiting my portfolio! 🎉</div>
+
+<!-- ============================================================
+     NAV
+============================================================ -->
+<nav>
+  <div class="nav-logo" id="logo-btn">Portfolio</div>
+  <ul class="nav-menu">
+    <li><button id="nb-home"     class="active">Home</button></li>
+    <li><button id="nb-about"           >About</button></li>
+    <li><button id="nb-skills"          >Skills</button></li>
+    <li><button id="nb-projects"        >Projects</button></li>
+    <li><button id="nb-contact"         >Contact</button></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <button id="mb-home"    class="active">🏠 Home</button>
+  <button id="mb-about"           >👤 About</button>
+  <button id="mb-skills"          >⚡ Skills</button>
+  <button id="mb-projects"        >💻 Projects</button>
+  <button id="mb-contact"         >📬 Contact</button>
+</div>
+
+<!-- ============================================================
+     HOME
+============================================================ -->
+<div class="page show" id="pg-home">
+  <p class="hello-label">Hello, I'm</p>
+  <h1 class="hero-name">Your Name</h1>
+  <div class="mca-badge">🎓 I am MCA Student</div>
+  <div class="typed-row"><span id="typed-el"></span><span class="cursor-blink"></span></div>
+  <p class="hero-desc">
+    I love building clean, responsive websites and learning new things every day.
+    Currently pursuing my MCA and exploring the world of frontend development.
+  </p>
+  <div class="hero-btn-row">
+    <button class="btn-outline"><i class="fas fa-download"></i> Download CV</button>
+    <button class="btn-clickme" id="clickme-btn">✨ Click Me!</button>
+  </div>
+  <div class="hero-socials">
+    <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+    <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
+  </div>
+</div>
+
+<!-- ============================================================
+     ABOUT
+============================================================ -->
+<div class="page" id="pg-about">
+  <div class="sec-head">
+    <span class="sec-tag">Who Am I</span>
+    <h2 class="sec-title">About Me</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="about-wrap">
+    <div class="about-avi">👨‍💻</div>
+    <div class="about-info">
+      <h2>Your Name</h2>
+      <div class="about-role"><i class="fas fa-code"></i> Frontend Developer &amp; MCA Student</div>
+      <p>
+        Hi! I'm an MCA student with a strong interest in <strong style="color:var(--accent)">Frontend Development</strong>.
+        I enjoy turning ideas into neat, responsive web pages using HTML, CSS, and JavaScript.
+        I'm still learning and growing every day — I love the process of building things from scratch.
+        I focus on writing clean code and making websites that look good and are easy to use.
+        Outside of coding, I enjoy exploring UI design to make web pages more attractive and user-friendly.
+        I'm always open to feedback and excited to work on new projects!
+      </p>
+      <div class="about-chips">
+        <span class="chip">HTML</span>
+        <span class="chip">CSS</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">React (Learning)</span>
+        <span class="chip">UI Design</span>
+        <span class="chip">MCA 2025</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SKILLS
+============================================================ -->
+<div class="page" id="pg-skills">
+  <div class="sec-head">
+    <span class="sec-tag">What I Know</span>
+    <h2 class="sec-title">My Skills</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="skills-wrap">
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">🌐 HTML</span><span class="sk-pct">85%</span></div><div class="sk-bar"><div class="sk-fill" data-w="85"></div></div></div>
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">🎨 CSS / Bootstrap</span><span class="sk-pct">78%</span></div><div class="sk-bar"><div class="sk-fill" data-w="78"></div></div></div>
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">⚙️ JavaScript (Basics)</span><span class="sk-pct">60%</span></div><div class="sk-bar"><div class="sk-fill" data-w="60"></div></div></div>
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">⚛️ React.js (Learning)</span><span class="sk-pct">40%</span></div><div class="sk-bar"><div class="sk-fill" data-w="40"></div></div></div>
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">🗄️ MySQL (Basic)</span><span class="sk-pct">55%</span></div><div class="sk-bar"><div class="sk-fill" data-w="55"></div></div></div>
+    <div class="sk-card"><div class="sk-top"><span class="sk-name">🛠️ Git &amp; GitHub</span><span class="sk-pct">65%</span></div><div class="sk-bar"><div class="sk-fill" data-w="65"></div></div></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PROJECTS  — self-managed, saved in browser
+============================================================ -->
+<div class="page" id="pg-projects">
+  <div class="sec-head">
+    <span class="sec-tag">What I've Built</span>
+    <h2 class="sec-title">My Projects</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="proj-inner">
+    <!-- Top bar: filters + add button -->
+    <div class="proj-topbar">
+      <div class="proj-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="html">HTML &amp; CSS</button>
+        <button class="filter-btn" data-filter="js">JavaScript</button>
+        <button class="filter-btn" data-filter="react">React</button>
+        <button class="filter-btn" data-filter="python">Python</button>
+        <button class="filter-btn" data-filter="other">Other</button>
+      </div>
+      <button class="btn-add-proj" id="open-modal-btn">
+        <i class="fas fa-plus"></i> Add Project
+      </button>
+    </div>
+
+    <!-- Cards render here -->
+    <div class="proj-grid" id="proj-grid">
+      <!-- Empty state (shown when no projects) -->
+      <div id="proj-empty">
+        <div class="empty-icon">📂</div>
+        <p>No projects yet.<br/>Click <strong style="color:var(--accent)">"+ Add Project"</strong> to upload your first project!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     CONTACT
+============================================================ -->
+<div class="page" id="pg-contact">
+  <div class="sec-head">
+    <span class="sec-tag">Get In Touch</span>
+    <h2 class="sec-title">Contact Me</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <div>
+        <h3>Let's Talk! 👋</h3>
+        <p style="margin-top:0.4rem;">Have a question, want to collaborate, or just want to say hi? Drop a message!</p>
+      </div>
+      <div class="c-row"><i class="fas fa-user"></i> MONICA KRISHNAN</div>
+      <div class="c-row"><i class="fas fa-envelope"></i> monicakrish204@gmail.com</div>
+      <div class="c-row"><i class="fas fa-phone"></i> +91 9994959515</div>
+      <div class="c-row"><i class="fas fa-map-marker-alt"></i> Tirupur, Tamil Nadu</div>
+      <div class="contact-socials">
+        <a href="#"><i class="fab fa-github"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+    </div>
+    <div class="contact-form">
+      <input type="text"  placeholder="Your Name"/>
+      <input type="email" placeholder="Your Email"/>
+      <input type="text"  placeholder="Subject"/>
+      <textarea           placeholder="Your Message"></textarea>
+      <button class="btn-primary" style="width:100%;justify-content:center;">
+        <i class="fas fa-paper-plane"></i> Send Message
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer></footer>
+
+<!-- ============================================================
+     ADD PROJECT MODAL
+============================================================ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>➕ Add New Project</h3>
+      <button class="modal-close" id="close-modal-btn"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="form-row">
+      <label>PROJECT TITLE *</label>
+      <input type="text" id="f-title" placeholder="e.g. To-Do List App"/>
+    </div>
+
+    <div class="form-row">
+      <label>SHORT DESCRIPTION *</label>
+      <textarea id="f-desc" placeholder="What does this project do? What did you learn?"></textarea>
+    </div>
+
+    <div class="form-2col">
+      <div class="form-row">
+        <label>EMOJI / ICON</label>
+        <input type="text" id="f-emoji" placeholder="e.g. 🧮" maxlength="4"/>
+        <span class="form-hint">Pick any emoji for your project</span>
+      </div>
+      <div class="form-row">
+        <label>CATEGORY *</label>
+        <select id="f-cat">
+          <option value="html">HTML &amp; CSS</option>
+          <option value="js">JavaScript</option>
+          <option value="react">React</option>
+          <option value="python">Python</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label>TECHNOLOGIES USED</label>
+      <input type="text" id="f-tags" placeholder="e.g. HTML, CSS, JavaScript"/>
+      <span class="form-hint">Separate with commas</span>
+    </div>
+
+    <div class="form-2col">
+      <div class="form-row">
+        <label>GITHUB LINK</label>
+        <input type="url" id="f-github" placeholder="https://github.com/..."/>
+      </div>
+      <div class="form-row">
+        <label>LIVE DEMO LINK</label>
+        <input type="url" id="f-live" placeholder="https://..."/>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" id="cancel-modal-btn">Cancel</button>
+      <button class="btn-save" id="save-proj-btn"><i class="fas fa-save"></i> Save Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+============================================================ -->
+<script>
+
+/* ---- Stars ---- */
+(function(){
+  var c=document.getElementById('stars-bg'), ctx=c.getContext('2d'), st=[];
+  function rs(){ c.width=innerWidth; c.height=innerHeight; }
+  rs(); window.addEventListener('resize',rs);
+  for(var i=0;i<160;i++) st.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5+0.3,o:Math.random(),s:Math.random()*0.02+0.005});
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    for(var i=0;i<st.length;i++){
+      var s=st[i]; s.o+=s.s; if(s.o>1||s.o<0)s.s=-s.s;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(255,255,255,'+s.o+')'; ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ---- Typing ---- */
+var roles=['Frontend Developer','MCA Student','Web Designer','HTML & CSS Enthusiast','JavaScript Learner'];
+var ri=0,ci=0,del=false;
+function type(){
+  var el=document.getElementById('typed-el'), w=roles[ri];
+  if(!del){ ci++; el.textContent=w.slice(0,ci); if(ci===w.length) setTimeout(function(){del=true;},1800); }
+  else { ci--; el.textContent=w.slice(0,ci); if(ci===0){del=false; ri=(ri+1)%roles.length;} }
+  setTimeout(type,del?65:115);
+}
+type();
+
+/* ---- Page switching ---- */
+var curPage='home';
+function showPage(id){
+  if(curPage===id) return; curPage=id;
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('show');});
+  document.querySelectorAll('.nav-menu li button, .mobile-menu button').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('pg-'+id).classList.add('show');
+  var nb=document.getElementById('nb-'+id); if(nb) nb.classList.add('active');
+  var mb=document.getElementById('mb-'+id); if(mb) mb.classList.add('active');
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  window.scrollTo(0,0);
+  if(id==='skills'){
+    setTimeout(function(){
+      document.querySelectorAll('.sk-fill').forEach(function(f){f.style.width=f.getAttribute('data-w')+'%';});
+    },200);
+  }
+  if(id==='projects') renderProjects();
+}
+
+document.getElementById('logo-btn'   ).addEventListener('click',function(){showPage('home');});
+document.getElementById('nb-home'    ).addEventListener('click',function(){showPage('home');});
+document.getElementById('nb-about'   ).addEventListener('click',function(){showPage('about');});
+document.getElementById('nb-skills'  ).addEventListener('click',function(){showPage('skills');});
+document.getElementById('nb-projects').addEventListener('click',function(){showPage('projects');});
+document.getElementById('nb-contact' ).addEventListener('click',function(){showPage('contact');});
+document.getElementById('mb-home'    ).addEventListener('click',function(){showPage('home');});
+document.getElementById('mb-about'   ).addEventListener('click',function(){showPage('about');});
+document.getElementById('mb-skills'  ).addEventListener('click',function(){showPage('skills');});
+document.getElementById('mb-projects').addEventListener('click',function(){showPage('projects');});
+document.getElementById('mb-contact' ).addEventListener('click',function(){showPage('contact');});
+
+/* Hamburger */
+document.getElementById('hamburger').addEventListener('click',function(){
+  this.classList.toggle('open');
+  document.getElementById('mobile-menu').classList.toggle('open');
+});
+
+/* ---- Click Me ---- */
+document.getElementById('clickme-btn').addEventListener('click',function(){
+  var t=document.getElementById('toast');
+  t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},4000);
+  var wrap=document.getElementById('confetti-wrap');
+  var cols=['#7c3aed','#ec4899','#f59e0b','#06b6d4','#10b981','#ef4444','#a855f7','#ffffff'];
+  for(var i=0;i<90;i++){
+    var d=document.createElement('div'); d.className='confetto';
+    d.style.left=(Math.random()*100)+'vw'; d.style.top='-12px';
+    d.style.background=cols[Math.floor(Math.random()*cols.length)];
+    d.style.width=(Math.random()*7+4)+'px'; d.style.height=(Math.random()*7+4)+'px';
+    d.style.borderRadius=Math.random()>0.5?'50%':'2px';
+    d.style.animationDuration=(Math.random()*2+1.5)+'s';
+    d.style.animationDelay=(Math.random()*0.5)+'s';
+    wrap.appendChild(d);
+    (function(el){setTimeout(function(){el.remove();},4500);})(d);
+  }
+  var btn=this; btn.textContent='🎉 Thanks!';
+  btn.style.background='linear-gradient(135deg,#10b981,#06b6d4)';
+  setTimeout(function(){btn.textContent='✨ Click Me!'; btn.style.background='';},3500);
+});
+
+/* =========================================================
+   PROJECT SYSTEM — stored in localStorage
+========================================================= */
+var STORAGE_KEY = 'portfolio_projects';
+var activeFilter = 'all';
+
+/* Load projects from storage */
+function loadProjects(){
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch(e){ return []; }
+}
+
+/* Save projects to storage */
+function saveProjects(arr){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+}
+
+/* Render project cards */
+function renderProjects(){
+  var projects = loadProjects();
+  var grid = document.getElementById('proj-grid');
+  var empty = document.getElementById('proj-empty');
+
+  /* clear old cards (keep empty state) */
+  var oldCards = grid.querySelectorAll('.proj-card');
+  for(var i=0;i<oldCards.length;i++) oldCards[i].remove();
+
+  /* filter */
+  var filtered = activeFilter==='all' ? projects : projects.filter(function(p){return p.cat===activeFilter;});
+
+  if(filtered.length===0){
+    empty.style.display='flex';
+    if(activeFilter!=='all'){
+      empty.querySelector('p').innerHTML = 'No <strong style="color:var(--accent)">'+activeFilter+'</strong> projects yet.<br/>Click <strong style="color:var(--accent)">"+ Add Project"</strong> to add one!';
+    } else {
+      empty.querySelector('p').innerHTML = 'No projects yet.<br/>Click <strong style="color:var(--accent)">"+ Add Project"</strong> to upload your first project!';
+    }
+    return;
+  }
+
+  empty.style.display='none';
+
+  filtered.forEach(function(proj){
+    var card = document.createElement('div');
+    card.className = 'proj-card';
+    card.setAttribute('data-id', proj.id);
+
+    /* tags html */
+    var tagsHtml = '';
+    if(proj.tags && proj.tags.length){
+      proj.tags.forEach(function(t){
+        tagsHtml += '<span class="ptag">'+escHtml(t.trim())+'</span>';
+      });
+    }
+
+    /* links html */
+    var linksHtml = '';
+    if(proj.github) linksHtml += '<a href="'+escHtml(proj.github)+'" target="_blank" class="proj-link"><i class="fab fa-github"></i> Code</a>';
+    if(proj.live)   linksHtml += '<a href="'+escHtml(proj.live)+'"   target="_blank" class="proj-link"><i class="fas fa-eye"></i> Live</a>';
+    if(!linksHtml)  linksHtml = '<span style="font-size:0.75rem;color:var(--muted);">No links added</span>';
+
+    card.innerHTML =
+      '<button class="proj-delete" data-id="'+proj.id+'" title="Delete project"><i class="fas fa-trash"></i> Delete</button>'+
+      '<div class="proj-emoji">'+(proj.emoji||'💻')+'</div>'+
+      '<div class="proj-title">'+escHtml(proj.title)+'</div>'+
+      '<div class="proj-desc">'+escHtml(proj.desc)+'</div>'+
+      '<div class="proj-tags">'+tagsHtml+'</div>'+
+      '<div class="proj-links">'+linksHtml+'</div>';
+
+    grid.appendChild(card);
+
+    /* delete button */
+    card.querySelector('.proj-delete').addEventListener('click',function(){
+      var pid = this.getAttribute('data-id');
+      if(confirm('Delete this project?')){
+        var arr = loadProjects().filter(function(p){return p.id!==pid;});
+        saveProjects(arr);
+        renderProjects();
+      }
+    });
+  });
+}
+
+/* Escape HTML */
+function escHtml(str){
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* Filter buttons */
+document.querySelectorAll('.filter-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+    this.classList.add('active');
+    activeFilter = this.getAttribute('data-filter');
+    renderProjects();
+  });
+});
+
+/* ---- MODAL ---- */
+function openModal(){
+  document.getElementById('modal-overlay').classList.add('open');
+  /* clear form */
+  document.getElementById('f-title').value='';
+  document.getElementById('f-desc').value='';
+  document.getElementById('f-emoji').value='';
+  document.getElementById('f-cat').value='html';
+  document.getElementById('f-tags').value='';
+  document.getElementById('f-github').value='';
+  document.getElementById('f-live').value='';
+  document.getElementById('f-title').focus();
+}
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+document.getElementById('open-modal-btn').addEventListener('click', openModal);
+document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+document.getElementById('cancel-modal-btn').addEventListener('click', closeModal);
+document.getElementById('modal-overlay').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+/* Save project */
+document.getElementById('save-proj-btn').addEventListener('click',function(){
+  var title = document.getElementById('f-title').value.trim();
+  var desc  = document.getElementById('f-desc').value.trim();
+  if(!title){ alert('Please enter a project title.'); document.getElementById('f-title').focus(); return; }
+  if(!desc)  { alert('Please enter a description.'); document.getElementById('f-desc').focus(); return; }
+
+  var tagsRaw = document.getElementById('f-tags').value.trim();
+  var tags = tagsRaw ? tagsRaw.split(',').map(function(t){return t.trim();}).filter(function(t){return t;}) : [];
+
+  var proj = {
+    id:     Date.now().toString(),
+    title:  title,
+    desc:   desc,
+    emoji:  document.getElementById('f-emoji').value.trim() || '💻',
+    cat:    document.getElementById('f-cat').value,
+    tags:   tags,
+    github: document.getElementById('f-github').value.trim(),
+    live:   document.getElementById('f-live').value.trim()
+  };
+
+  var arr = loadProjects();
+  arr.unshift(proj); /* newest first */
+  saveProjects(arr);
+
+  closeModal();
+  activeFilter = 'all';
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+  renderProjects();
+});
+
+/* Initial render */
+renderProjects();
+
+</script>
+</body>
+</html>
